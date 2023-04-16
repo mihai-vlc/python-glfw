@@ -82,6 +82,7 @@ def run():
         glfw.terminate()
         return
 
+    print(glfw.get_version_string())
 
     # Make the window's context current
     glfw.make_context_current(window)
