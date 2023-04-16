@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "python-glfw"
+version = "0.1.0"
+description = ""
+authors = ["Mihai Ionut Vilcu <ionutvmi@gmail.com>"]
+readme = "README.md"
+packages = [{ include = "python_glfw", from = "src" }]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+glfw = "^2.5.9"
+poethepoet = "^0.19.0"
+moderngl = "^5.8.2"
+numpy = "^1.24.2"
+
+[tool.poetry.group.dev.dependencies]
+autopep8 = "^2.0.2"
+
+[tool.poe.tasks]
+start = { script = "python_glfw.main:run" }
+
+[tool.pyright]
+reportMissingTypeStubs = false
+reportUnknownMemberType = false
+reportUnknownVariableType = false
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
