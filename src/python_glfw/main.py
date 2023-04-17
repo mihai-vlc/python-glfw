@@ -3,18 +3,19 @@ import glfw
 import moderngl
 import numpy as np
 import math
+from python_glfw.logger import logger
 
 def vertices():
     x = np.linspace(-1.0, 1.0, 50)
     y = np.random.rand(50) - 0.5
     r = np.ones(50)
-    g = np.ones(50)
+    g = np.arange(0, 1, 0.02)
     b = np.zeros(50)
-    a = np.ones(50)
+    a = np.zeros(50)
     return np.dstack([x, y, r, g, b, a])
 
 class HelloWorld2D:
-    def __init__(self, ctx, reserve='4MB'):
+    def __init__(self, ctx: moderngl.Context, reserve: str='4MB'):
         self.ctx = ctx
         self.prog = self.ctx.program(
             vertex_shader='''
@@ -82,7 +83,7 @@ def run():
         glfw.terminate()
         return
 
-    print(glfw.get_version_string())
+    logger.error(glfw.get_version_string())
 
     # Make the window's context current
     glfw.make_context_current(window)
