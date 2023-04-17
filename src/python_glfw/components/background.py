@@ -2,8 +2,10 @@ import math
 
 import moderngl
 
+from .component import Component
 
-class Background:
+
+class Background(Component):
     def __init__(self, ctx: moderngl.Context):
         self.ctx = ctx
         self.time = 0

@@ -3,6 +3,8 @@ import moderngl
 import numpy as np
 import glfw
 
+from .component import Component
+
 
 def vertices():
     x = np.linspace(-1.0, 1.0, 50)
@@ -14,7 +16,7 @@ def vertices():
     return np.dstack([x, y, r, g, b, a])
 
 
-class Graph2D:
+class Graph2D(Component):
     def __init__(self, ctx: moderngl.Context):
         self.ctx = ctx
         self.verts = vertices()
@@ -72,6 +74,9 @@ class Graph2D:
             self.ctx.point_size = 3.0
             self.vao.render(moderngl.POINTS, vertices=len(data) // 24)
 
+    def regenerate(self):
+        self.verts = vertices()
+
     def key_callback(self, key: int, action: int):
         if action == glfw.RELEASE:
             return
@@ -84,9 +89,6 @@ class Graph2D:
 
         if key == glfw.KEY_ENTER:
             self.regenerate()
-
-    def regenerate(self):
-        self.verts = vertices()
 
     def update(self, delta_time: float):
         self.time += delta_time

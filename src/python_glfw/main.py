@@ -2,9 +2,10 @@ from typing import Any
 import glfw
 import moderngl
 from python_glfw.components import Background
-from python_glfw.logger import logger
+from python_glfw.components import ColorTriangle
 from python_glfw.components import Graph2D
 from python_glfw.scenes import Scene
+from python_glfw.logger import logger
 
 
 def run():
@@ -30,6 +31,7 @@ def run():
     active_scene = Scene()
 
     active_scene.add_component(Background(ctx))
+    active_scene.add_component(ColorTriangle(ctx))
     active_scene.add_component(Graph2D(ctx))
 
     def key_callback(window: Any, key: int, scancode: int, action: int, mods: int):
