@@ -62,6 +62,7 @@ class Text(Component):
         self.texture.use(location=0)
         self.ctx.enable(moderngl.BLEND)
         self.screen_rectangle.render(mode=moderngl.TRIANGLE_STRIP)
+        self.ctx.disable(moderngl.BLEND)
 
     def render_cairo_to_texture(self, width: int, height: int):
         # Draw with cairo to surface
