@@ -1,6 +1,7 @@
 from typing import Any, Tuple
 import moderngl
 import numpy as np
+import glfw
 
 
 def vertices():
@@ -17,6 +18,7 @@ class Graph2DScreen:
     def __init__(self, ctx: moderngl.Context):
         self.ctx = ctx
         self.verts = vertices()
+        self.last_update = 0
         self.prog = self.ctx.program(
             vertex_shader='''
                 #version 330
@@ -72,8 +74,26 @@ class Graph2DScreen:
             self.ctx.point_size = 3.0
             self.vao.render(moderngl.POINTS, vertices=len(data) // 24)
 
+    def key_callback(self, key: int, action: int):
+        if action == glfw.RELEASE:
+            return
+
+        if key == glfw.KEY_LEFT:
+            self.relative_pan((-0.1, 0))
+
+        if key == glfw.KEY_RIGHT:
+            self.relative_pan((0.1, 0))
+
+        if key == glfw.KEY_ENTER:
+            self.regenerate()
+
     def regenerate(self):
         self.verts = vertices()
+
+    def update(self, time: float):
+        if (time - self.last_update) > 2:
+            self.last_update = time
+            self.regenerate()
 
     def render(self):
         self.plot(self.verts)
