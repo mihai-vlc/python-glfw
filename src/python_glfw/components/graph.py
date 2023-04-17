@@ -19,6 +19,7 @@ class Graph2D:
         self.ctx = ctx
         self.verts = vertices()
         self.last_update = 0
+        self.time = 0
         self.prog = self.ctx.program(
             vertex_shader='''
                 #version 330
@@ -87,9 +88,11 @@ class Graph2D:
     def regenerate(self):
         self.verts = vertices()
 
-    def update(self, time: float):
-        if (time - self.last_update) > 2:
-            self.last_update = time
+    def update(self, delta_time: float):
+        self.time += delta_time
+
+        if (self.time - self.last_update) > 2:
+            self.last_update = self.time
             self.regenerate()
 
     def render(self):

@@ -9,10 +9,9 @@ class Scene:
         for component in self.components:
             component.key_callback(key, action)
 
-
-    def update(self, time: float):
+    def update(self, delta_time: float):
         for component in self.components:
-            component.update(time)
+            component.update(delta_time)
 
     def render(self):
         for component in self.components:

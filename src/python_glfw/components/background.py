@@ -11,8 +11,8 @@ class Background:
     def key_callback(self, key: int, action: int):
         pass
 
-    def update(self, time: float):
-        self.time = time
+    def update(self, delta_time: float):
+        self.time += delta_time
 
     def render(self):
         self.ctx.clear(

@@ -9,12 +9,10 @@ from python_glfw.scenes import Scene
 
 def run():
 
-    # Initialize the library
     if not glfw.init():
         logger.error("Failed to initialize glfw")
         return
 
-    # Create a windowed mode window and its OpenGL context
     window = glfw.create_window(
         1000, 600, "My Awesome Application", None, None)
 
@@ -35,6 +33,9 @@ def run():
     active_scene.add_component(Graph2D(ctx))
 
     def key_callback(window: Any, key: int, scancode: int, action: int, mods: int):
+        if key == glfw.KEY_ESCAPE and action == glfw.PRESS:
+            glfw.set_window_should_close(window, True)
+
         active_scene.key_callback(key, action)
 
     glfw.set_key_callback(window, key_callback)
@@ -44,21 +45,24 @@ def run():
 
     glfw.set_window_size_callback(window, window_size_callback)
 
-    # Loop until the user closes the window
+    delta_time = 0
+    last_frame = 0
+
     while not glfw.window_should_close(window):
         # Input
         time = glfw.get_time()
+        delta_time = time - last_frame
+        last_frame = time
 
         # Update
-        active_scene.update(time)
+        active_scene.update(delta_time)
 
-        # Render here, e.g. using moderngl
+        # Render
         active_scene.render()
 
-        # Swap front and back buffers
         glfw.swap_buffers(window)
 
-        # Poll for and process events
+        # Process pending events
         glfw.poll_events()
 
     glfw.terminate()
