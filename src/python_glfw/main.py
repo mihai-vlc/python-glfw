@@ -4,6 +4,7 @@ import moderngl
 from python_glfw.components import Background
 from python_glfw.components import ColorTriangle
 from python_glfw.components import Graph2D
+from python_glfw.components import Text
 from python_glfw.scenes import Scene
 from python_glfw.logger import logger
 
@@ -15,7 +16,12 @@ def run():
         return
 
     window = glfw.create_window(
-        1000, 600, "My Awesome Application", None, None)
+        width=1000,
+        height=600,
+        title="My Awesome Application",
+        monitor=None,
+        share=None,
+    )
 
     if not window:
         glfw.terminate()
@@ -25,14 +31,15 @@ def run():
 
     # Make the window's context current
     glfw.make_context_current(window)
-    glfw.swap_interval(1)
+    glfw.swap_interval(1)  # vsync
 
     ctx = moderngl.create_context()
     active_scene = Scene()
 
     active_scene.add_component(Background(ctx))
-    active_scene.add_component(ColorTriangle(ctx))
-    active_scene.add_component(Graph2D(ctx))
+    active_scene.add_component(Text(ctx))
+    # active_scene.add_component(ColorTriangle(ctx))
+    # active_scene.add_component(Graph2D(ctx))
 
     def key_callback(window: Any, key: int, scancode: int, action: int, mods: int):
         if key == glfw.KEY_ESCAPE and action == glfw.PRESS:
