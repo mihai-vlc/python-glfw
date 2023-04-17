@@ -1,9 +1,10 @@
 from typing import Any
 import glfw
 import moderngl
-import math
+from python_glfw.components import Background
 from python_glfw.logger import logger
-from python_glfw.screens import Graph2DScreen
+from python_glfw.components import Graph2D
+from python_glfw.scenes import Scene
 
 
 def run():
@@ -28,10 +29,13 @@ def run():
     glfw.swap_interval(1)
 
     ctx = moderngl.create_context()
-    canvas = Graph2DScreen(ctx)
+    active_scene = Scene()
+
+    active_scene.add_component(Background(ctx))
+    active_scene.add_component(Graph2D(ctx))
 
     def key_callback(window: Any, key: int, scancode: int, action: int, mods: int):
-        canvas.key_callback(key, action)
+        active_scene.key_callback(key, action)
 
     glfw.set_key_callback(window, key_callback)
 
@@ -46,18 +50,10 @@ def run():
         time = glfw.get_time()
 
         # Update
-        canvas.update(time)
+        active_scene.update(time)
 
         # Render here, e.g. using moderngl
-        # canvas.clear(background_color)
-        ctx.clear(
-            0,
-            0,
-            (math.sin(time) + 1.0) / 2,
-            # (math.sin(time + 10) + 1.0) / 2,
-            # (math.sin(time + 30) + 1.0) / 2,
-        )
-        canvas.render()
+        active_scene.render()
 
         # Swap front and back buffers
         glfw.swap_buffers(window)

@@ -1,4 +1,4 @@
-from typing import Any, Tuple
+from typing import Any
 import moderngl
 import numpy as np
 import glfw
@@ -14,7 +14,7 @@ def vertices():
     return np.dstack([x, y, r, g, b, a])
 
 
-class Graph2DScreen:
+class Graph2D:
     def __init__(self, ctx: moderngl.Context):
         self.ctx = ctx
         self.verts = vertices()
@@ -59,9 +59,6 @@ class Graph2DScreen:
         pan = self.prog['Pan']
         pos = pan.value
         pan.value = (pos[0] + relative_pos[0], pos[1] + relative_pos[1])
-
-    def clear(self, color: Tuple[int, int, int, int] = (0, 0, 0, 0)):
-        self.ctx.clear(*color)
 
     def plot(self, points: Any, type: str = 'line'):
         data = points.astype('f4').tobytes()
